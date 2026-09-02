@@ -2,11 +2,6 @@ name: Build Ubuntu 26.04 package
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
-    paths:
-      - ".github/workflows/build-ubuntu-26.04.yml"
 
 permissions:
   contents: read
