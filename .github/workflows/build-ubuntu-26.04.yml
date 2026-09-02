@@ -1,0 +1,55 @@
+name: Build Ubuntu 26.04 package
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/build-ubuntu-26.04.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ubuntu-26.04-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ubuntu_2604:
+    name: Ubuntu 26.04 amd64
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      IMAGE: docker.io/amd64/ubuntu:26.04
+      PLATFORM: linux/amd64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build .deb in Ubuntu 26.04
+        run: |
+          podman run \
+            --platform "$PLATFORM" \
+            --rm \
+            --security-opt seccomp=unconfined \
+            --volume "$PWD:/mnt" \
+            --workdir /mnt \
+            "$IMAGE" \
+            ./packages/debian/01-in-docker.sh
+
+      - name: Inspect package
+        run: |
+          ls -lh dist/*.deb
+          dpkg-deb --info dist/*.deb
+
+      - name: Upload Ubuntu 26.04 package
+        uses: actions/upload-artifact@v4
+        with:
+          name: RedPanda-CPP Ubuntu 26.04 amd64
+          path: dist/*.deb
+          if-no-files-found: error
+          retention-days: 30
