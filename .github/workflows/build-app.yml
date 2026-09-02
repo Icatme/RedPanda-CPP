@@ -1,18 +1,6 @@
 name: Build standalone apps
 
 on:
-  push:
-    paths-ignore:
-      - ".gitignore"
-      - ".gitattributes"
-      - "**.md"
-      - "LICENSE"
-  pull_request:
-    paths-ignore:
-      - ".gitignore"
-      - ".gitattributes"
-      - "**.md"
-      - "LICENSE"
   workflow_dispatch:
 
 env:
