@@ -1,18 +1,6 @@
 name: Build for package managers
 
 on:
-  push:
-    paths-ignore:
-      - ".gitignore"
-      - ".gitattributes"
-      - "**.md"
-      - "LICENSE"
-  pull_request:
-    paths-ignore:
-      - ".gitignore"
-      - ".gitattributes"
-      - "**.md"
-      - "LICENSE"
   workflow_dispatch:
 
 env:
